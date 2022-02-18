@@ -19,7 +19,7 @@
     <div class="theform" id="theform">
     <textarea type="text" dir="auto" rows="10"  class="form-control" v-model="msg"></textarea>
     <center>
-        <button class="btn subntn" v-on:click="sendMsg">ارسل</button>
+        <button class="btn subntn" v-on:click="sendMsg" id="sendbtns">ارسل</button>
         </center>
     </div>
 
@@ -38,6 +38,7 @@ data(){
 },
 methods:{
     sendMsg(){
+        document.getElementById("sendbtns").classList.add("disabled")
         this.msg = encodeURIComponent(this.msg)
         axios.get('https://api.telegram.org/bot'+this.token+'/sendMessage?chat_id='+this.chat_id+'&text='+this.msg)
         .then(function (response) {
@@ -51,8 +52,7 @@ methods:{
                 document.getElementById('sendagin').style.display = "block"
 
                 }
-            }).catch(function (error) {
-            console.log(error);
+            }).catch(function () {
                 document.getElementById('theform').style.display = "none"
                 document.getElementById('wrong').style.display  = "block"
                 document.getElementById('sendagin').style.display = "block"
@@ -60,9 +60,10 @@ methods:{
 
       },
     sendAgin(){
+        document.getElementById("sendbtns").classList.remove("disabled")
         this.msg =  '',
-         document.getElementById('right').style.display  = "none"
-         document.getElementById('wrong').style.display  = "none"
+        document.getElementById('right').style.display  = "none"
+        document.getElementById('wrong').style.display  = "none"
         document.getElementById('sendagin').style.display = "none"
         document.getElementById('theform').style.display = "block"
 
